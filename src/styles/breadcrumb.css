@@ -1,0 +1,13 @@
+.breadcrumb {
+    display: flex;
+    justify-content: flex-end;   /* 👉 우측 정렬 */
+    align-items: center;         /* 👉 세로 가운데 */
+    
+    padding: 12px 24px;
+}
+
+.breadcrumb-current {
+    font-size: 13px;
+    color: #444;                 /* 👉 어두운 색 */
+    font-weight: 500;
+}

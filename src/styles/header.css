@@ -1,0 +1,29 @@
+/* header.css */
+
+.header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e6ee;
+}
+
+.header-tabs {
+  display: flex;
+  gap: 8px;  
+}
+
+.header-tab {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #f1f3f7;
+  color: #333;
+}
+
+.header-tab.active {
+  background-color: #3b7fdc;
+  color: #fff;
+}
