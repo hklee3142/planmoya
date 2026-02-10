@@ -6,7 +6,7 @@ import "./styles/layout.css";
 import "./styles/sidebar.css";
 import "./styles/header.css";
 import "./styles/content.css";
-import "./styles/tabs.css";
+import "./styles/tabBar.css";
 import "./styles/breadcrumb.css";
 
 import IndexRoute from 'routes/IndexRoute';

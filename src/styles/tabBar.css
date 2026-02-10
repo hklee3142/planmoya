@@ -1,0 +1,52 @@
+/* tabBar.css */
+
+.tab-bar {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  background-color: #f5f6f8;
+  border-bottom: 1px solid #dcdfe6;
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+
+/* 탭 하나 */
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  margin-right: 6px;
+
+  background-color: #e4e7ed;
+  border-radius: 6px 6px 0 0;
+
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+
+  user-select: none;
+}
+
+/* 활성 탭 */
+.tab.active {
+  background-color: #ffffff;
+  color: #222;
+  font-weight: 600;
+
+  border: 1px solid #dcdfe6;
+  border-bottom: 1px solid #ffffff;
+}
+
+/* 닫기 버튼 */
+.tab-close {
+  font-size: 14px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+}
+
+.tab-close:hover {
+  color: #333;
+}

@@ -1,47 +1,54 @@
 import {Outlet} from "react-router-dom";
 import {useState} from "react";
 import PlanMoyaLayoutSidebar from "component/layout/PlanMoyaLayoutSidebar";
+import TabBar from "component/layout/TabBar";
 import BreadCrumb from "component/layout/BreadCrumb";
 
-
-const TABS = [
-    "HOME",
-    "프로젝트",
-    "체크리스트 작성",
-    "주간 회고 작성",
-    "월간 회고 작성"
-];
 
 
 
 const PlanMoyaLayout = () => {
 
-    const [activeTab, setActiveTab] = useState("HOME");
+    const [tabs, setTabs] = useState([]);
+    const [activeTabId, setActiveTabId] = useState(null);
+
+    const openTab = (tab) => {
+        setTabs((prev) => {
+            const exists = prev.find((t) => t.id === tab.id);
+            if(exists) {
+                setActiveTabId(tab.id);
+                return prev;
+            }
+            if(prev.length >= 10) return prev;
+            setActiveTabId(tab.id);
+            return [...prev, tab];
+        });
+    };
+
+    const closeTab = (id) => {
+        setTabs((prev) => {
+            const filtered = prev.filter((t) => t.id !== id);
+            if(id === activeTabId && filtered.length > 0) {
+                setActiveTabId(filtered[filtered.length -1].id);
+            }
+            return filtered;
+        });
+    };
+    const activeTab = tabs.find((t) => t.id ===activeTabId);
 
     return (
         <div className="app-layout">
-            <PlanMoyaLayoutSidebar />
+            <PlanMoyaLayoutSidebar onOpenTab={openTab} />
             <div className="main-area">
-                <header className="header">
-                    <div className="header-tabs">
-                        {TABS.map(tab => (
-
-                            <div key={tab}
-                                 className={`header-tab ${activeTab === tab ? "active" : ""}`}
-                                 onClick={() => setActiveTab(tab)}>
-                                {tab}
-                            </div>
-                        ))}
-                    </div>
-                </header>
-                <BreadCrumb items={
-                    activeTab === "HOME" ? ["HOME"] : 
-                    ["HOME",activeTab]} />
-
-                <div className="content-wrapper">
-                    <div className="content-box">
-                        <div className="content-header">{activeTab}</div>
-                        <Outlet />
+                <TabBar 
+                    tabs={tabs}
+                    activeTabId={activeTabId}
+                    onSelect={setActiveTabId}
+                    onClose={closeTab}
+                />
+                <div className="page-area">
+                    <div className="page-container">
+                        {tabs.length === 0 ? <Outlet /> : activeTab?.component}  
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import {Routes, Route} from "react-router-dom";
 import PlanMoyaMainPage from "pages/PlanMoyaMainPage";
 import PlanMoyaLayout from "layout/PlanMoyaLayout";
+import ProjectDetailPage from "pages/ProjectDetailPage";
 
 
 

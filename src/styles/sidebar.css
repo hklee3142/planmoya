@@ -24,10 +24,24 @@
 }
 
 .sidebar-item {
+  display: flex;
+  align-items: center;
+
   padding: 12px 14px;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 8px;
+
   font-size: 15px;
+  font-weight: 500;
+
+  color: #ffffff !important;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  /* reset / antd 방어 */
+  opacity: 1;
+  background: transparent;
+  transition: background-color 0.2s ease, font-weight 0.2s ease;
 }
 
 .sidebar-item.active {
@@ -36,4 +50,9 @@
 
 .sidebar-item:hover {
   background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* NavLink 사용 시 방문 후 색 깨지는 거 방지 */
+.sidebar-item:visited {
+  color: #ffffff;
 }
