@@ -49,7 +49,7 @@ const PlanMoyaLayoutSidebar = ({onOpenTab}) => {
             }>체크리스트</div>            
             <div className="sidebar-item" onClick={() =>
                 onOpenTab({
-                    key: "journal",
+                    id: "journal",
                     title: "저널링",
                     component: <JournalPage />
                 })

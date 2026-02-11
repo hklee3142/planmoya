@@ -48,7 +48,14 @@ const PlanMoyaLayout = () => {
                 />
                 <div className="page-area">
                     <div className="page-container">
-                        {tabs.length === 0 ? <Outlet /> : activeTab?.component}  
+                        {tabs.length === 0 && <Outlet />}
+                        {tabs.map((tab)=> (
+                            <div key={tab.id}
+                                style={{display: tab.id === activeTabId ? "block" : "none"}}>
+                            {tab.component} 
+                            </div>
+                        ))}
+                        
                     </div>
                 </div>
             </div>
