@@ -20,3 +20,50 @@
   font-weight: bold;
   color:#333;
 }
+
+
+.calendar-date-num {
+  font-size: 13px;
+  color: #333;
+  text-align: center;
+}
+
+.today-box .calendar-date-num {
+  color: #722ed1; /* 오늘 날짜 숫자는 보라색으로 */
+  font-weight: bold;
+}
+
+
+/* 1. 요일(월화수목)과 숫자 사이 경계선 추가 */
+.ant-picker-calendar-thead th {
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #f0f0f0 !important; /* 연한 경계선 */
+  color: #888;
+  font-weight: 500;
+}
+
+/* 2. 날짜 셀 컨테이너 설정 */
+.custom-date-cell {
+  height: 45px; /* 셀 높이 고정 */
+  display: flex;
+  align-items: center; /* 세로 중앙 */
+  justify-content: center; /* 가로 중앙 */
+  padding-top: 5px; /* 요일과의 간격 */
+}
+
+/* 3. 숫자 원형 배경 스타일 (정중앙 배치 핵심) */
+.date-circle {
+  width: 32px;
+  height: 32px;
+  display: flex;           /* Flex 사용 */
+  align-items: center;     /* 세로 중앙 */
+  justify-content: center; /* 가로 중앙 */
+  border-radius: 50%;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+/* 오늘 날짜 사각형 박스(이미지 스타일)를 원하고 싶다면 */
+.today-box {
+  border-radius: 6px !important; /* 원 대신 약간 둥근 사각형 */
+}
