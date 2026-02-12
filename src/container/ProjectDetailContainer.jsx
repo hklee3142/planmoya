@@ -5,10 +5,11 @@ import {Card, Row, Col, Tabs, Calendar, Progress, Badge, Button, Select} from 'a
 import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import dayjs from 'dayjs';
 import locale from 'antd/es/date-picker/locale/ko_KR';
+import ChecklistWritePage from 'pages/ChecklistWritePage';
 
 
 
-const ProjectDetailContainer = () => {
+const ProjectDetailContainer = ({onOpenTab}) => {
 
     
 
@@ -21,12 +22,22 @@ const ProjectDetailContainer = () => {
         return null;
     };
 
+    const handleGoToWrite = () => {
+
+        onOpenTab({
+            id:"checklist-write",
+            title: "체크리스트 작성",
+            component : <ChecklistWritePage onOpenTab={onOpenTab} />
+        })
+        
+    }
+
     const [activeMonth, setActiveMonth] = useState("1");
 
     const dateCellRender = (value) => {
         
         let data = getListData(value); 
-        const isToday = value.isSame(dayjs(), 'day'); 
+        const isToday = value.isSame(dayjs('2026-01-31'), 'day'); //dayjs에 인자값을 오늘날짜로 넣어야 함
 
         data = value.month() + 1 === Number(activeMonth) ? data : null
 
@@ -114,33 +125,81 @@ const ProjectDetailContainer = () => {
                 <Button type="primary"
                         icon={<PlusOutlined />}
                         style={{position:'absolute', right:0, top:0 ,backgroundCoor:'#faad14', border:'none'}}
-                        onClick={()=> console.log('오늘의 체크리스트 작성 이동')}>체크리스트 작성
+                        onClick={handleGoToWrite}>체크리스트 작성
                 </Button>
                 <Card style={{borderRadius:'0 0 10px 10px', borderTop:'none'}}>
-                    <Col span={9}>
-                        <div className="calendar-wrapper" style={{border:'1px solid #f0f0f0', padding: 8}}>
-                            <Calendar
-                                fullscreen={false}
-                                headerRender={() => null}
-                                locale={locale}
-                                fullCellRender={dateCellRender}
-                                value={dayjs(`2026-0${activeMonth}-31`)}
-                            />
-                        </div>
+                    <Row gutter={16} style={{display:'flex'}}>
+                        <Col span={9}>
+                            <div className="calendar-wrapper" style={{border:'1px solid #f0f0f0', padding: 8}}>
+                                <Calendar
+                                    fullscreen={false}
+                                    headerRender={() => null}
+                                    locale={locale}
+                                    fullCellRender={dateCellRender}
+                                    value={dayjs(`2026-0${activeMonth}-31`)}
+                                />
+                            </div>
+                        </Col>
+                      <Col span={15} style={{display:'flex', flexDirection: 'column'}}>
+                      <Row gutter={[16, 16]} style={{flex: 1}}>
+                        <Col span={12} style={{height:'50%'}}><Card title="좋았던 점" className="feedback-card blue" style={{ height: '100%' }}><li>계획대로 진행 중</li></Card></Col>
+                        <Col span={12} style={{height:'50%'}}><Card title="개선점" className="feedback-card green" style={{ height: '100%' }}><li>운동시간 부족</li></Card></Col>
+                        <Col span={12} style={{height:'50%'}}><Card title="깨달음" className="feedback-card yellow" style={{ height: '100%' }}><li>하면 된다!</li></Card></Col>
+                        <Col span={12} style={{height:'50%'}}><Card title="오늘의 목표" className="feedback-card pink" style={{ height: '100%' }}><li>API 연동 완료하기</li></Card></Col>
+                      </Row>
                     </Col>
+                    </Row>
                 </Card>
             </div>
-            <Card size="small" style={{marginTop: 16, backgroundColor: '#fafafa'}}>
-                <div style={{margineBottom: 10}}>
-                    {['1주','2주','3주','4주','5주'].map((week, idx) => (
-                        <Row key={idx} align="middle" style={{marginBottom: 4}}>
-                            <Col span={6}>{week} 달성률 : </Col>
-                            <Col span={18}><Progress percent={idx * 20 + 10} size="small" strokeColor={idx === 0 ? '#ff4d4f' : '#52c41a'} /></Col>
-                        </Row>
-                    ))}
-                </div>
+            <Card size="small" style={{marginTop: 16, borderRadius:10, backgroundColor: '#fafafa'}}>
+                <Row gutter={32}>
+                    <Col span={12} style={{borderRight:'1px solid #eee', paddingRight: '24px'}}>
+                        <div style={{marginBottom:'12px', fontWeight:'bold', color:'#ff4d4f', textAlign:'center'}}>
+                            이주의 달성율
+                        </div>
+                        {['1주','2주','3주','4주','5주'].map((week, idx) =>{
+                            const percent = (idx + 1) *20 -10;
+                            const strokeColor = percent >= 40? '#ff4d4f' : '#8bc34a';
+
+                            return (
+                                <Row key={idx} align="middle" style={{marginBottom: 8}}>
+                                    <Col span={6} style={{fintSize: '12px', color:'#666'}}>{week} 달성률 : </Col>
+                                    <Col span={14}>
+                                        <Progress 
+                                            percent={percent}
+                                            showInfo={false}
+                                            strokeColor={strokeColor}
+                                            strokeWidth={10}
+                                            tailColor="#eee"
+                                        />
+                                    </Col>
+                                    <Col span={4} style={{textAlign:'right', fontSize: '12px', color:'#888'}}>
+                                        {percent}%
+                                    </Col>
+                                </Row>
+                            );
+                        })}
+                    </Col>
+                    <Col span={12} style={{paddingLeft:'24px', display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                        <div style={{marginBottom:'20px', fontWeight: 'bold',color:'#ff4d4f', textAlign: 'center'}}>이달의 달성율</div>
+                        <div style={{textAlign: 'center'}}>
+                            <Progress
+                                percent={65}
+                                status="active"
+                                storokeColor="#8bc34a"
+                                strokeWidth={15}
+                                format={(percent) => (
+                                    <span style={{fontSize: '18px', fontWeight: 'bold', color : '#333'}}>{percent}%</span>
+                                )} />
+                        </div>
+                        <div style={{marginTop: '10px', color: '#888', fontSize: '12px'}}>
+                            이번 달 전체 목표 달성률 입니다.
+                        </div>
+                    </Col>
+                </Row>
             </Card>
         </div>
+        
 
        
 

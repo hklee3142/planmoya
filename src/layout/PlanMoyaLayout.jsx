@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import {useState} from "react";
+import React, {useState} from "react";
 import PlanMoyaLayoutSidebar from "component/layout/PlanMoyaLayoutSidebar";
 import TabBar from "component/layout/TabBar";
 import BreadCrumb from "component/layout/BreadCrumb";
@@ -52,7 +52,7 @@ const PlanMoyaLayout = () => {
                         {tabs.map((tab)=> (
                             <div key={tab.id}
                                 style={{display: tab.id === activeTabId ? "block" : "none"}}>
-                            {tab.component} 
+                            {React.cloneElement(tab.component,{onOpenTab: openTab})}
                             </div>
                         ))}
                         

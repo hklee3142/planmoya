@@ -67,3 +67,52 @@
 .today-box {
   border-radius: 6px !important; /* 원 대신 약간 둥근 사각형 */
 }
+
+
+
+/* 피드백 카드 공통 스타일 */
+.feedback-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 카드 제목 폰트 크기 조절 */
+.feedback-card .ant-card-head-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 4가지 색상 선언 */
+.feedback-card.blue {
+    border-left: 5px solid #1890ff !important;
+}
+
+.feedback-card.green {
+    border-left: 5px solid #52c41a !important;
+}
+
+.feedback-card.yellow {
+    border-left: 5px solid #faad14 !important;
+}
+
+.feedback-card.pink {
+    border-left: 5px solid #eb2f96 !important;
+}
+
+/* 추가: 달력 숫자 중앙 정렬을 위한 CSS */
+.custom-date-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
+
+.date-circle {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+}
