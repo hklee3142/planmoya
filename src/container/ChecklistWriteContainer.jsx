@@ -1,24 +1,71 @@
 
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {Row,Col,Card,Calendar,Checkbox, Tabs,Button, AutoComplete, Input} from 'antd';
-import {PlusOutlined, SaveOutlined} from '@ant-design/icons';
+import {PlusOutlined, SaveOutlined,DeleteOutlined} from '@ant-design/icons';
 
 
 const ChecklistWriteContainer = () => {
 
     const [options, setOptions] = useState([]);
-    const projectKeywords = [
-        {value:'바닐라 자바스크립트 공부'},
-        {value:'김영한 자바강의'},
-        {value:'계획프로그램 개발'},
-        {value:'독서(클린코드)'},
-    ];
+    const [todoList, setTodoList] = useState([]);
+    const [inputValue, setInputValue] = useState("");
+
+    const isProcessing = useRef(false);
+    //const [projectKeyword, setProjectKeyword] = useState()
+
+    const [projectKeywords, setProjectKeywords] = useState([
+        {value : "바닐라 자바스크립트 공부"},
+        {value : "김영한 자바강의"},
+        {value : "독서(오브젝트)"},
+    ]);
+
+    const handlePressEnter = (value) => {
+
+        if(isProcessing.current) return;
+
+        const text = value?.trim();
+        if(!text) return;
+
+        isProcessing.current = true;
+
+        try {
+            const isDuplicateTodo = todoList.some(todo => todo.text === text);
+
+            if(isDuplicateTodo) return;
+
+            const isNewKeyword = projectKeywords.some(item => item.value === text);
+
+            if(!isNewKeyword) {
+                setProjectKeywords(prev => [...prev, {value: text}]);
+            };
+
+            const newTodo = {
+                id: Date.now(),
+                text : text,
+                checked : false
+            };
+
+            setTodoList(prev => [...prev, newTodo]);
+            setInputValue("");
+            setOptions([]);            
+
+        }finally {
+            setTimeout(() => {
+                isProcessing.current = false;
+            }, 100);
+        }
+
+    };
+
+    const handleDelete = (id) => {
+        setTodoList(todoList.filter(item => item.id != id));
+    };
 
     const onSearch = (searchText) => {
         setOptions(
             searchText ? projectKeywords.filter(item => item.value.includes(searchText)) : []
         );
-    }
+    };
 
     const editorItems = [
         {key:'1', label:'좋았던 점', children:<div classname="editor-box">에디터가 들어갈 자리입니다.</div>},
@@ -33,24 +80,77 @@ const ChecklistWriteContainer = () => {
                 <Col span={9} style={{display:'flex', flexDirection: 'column'}}>
                     <Card
                         title="2026-01-31 체크리스트"
-                        extra={<Button type="text" icon={<PlusOutlined />} />}
-                        style={{marginBottom:'16px', borderRadius:'12px'}}
+                        // extra={<Button type="text" icon={<PlusOutlined />} />}
+                        // style={{marginBottom:'16px', borderRadius:'12px'}}
+                        style={{borderRaius:'12px', height:'100%'}}
                     >
                         <div style={{marginBottom:'15px'}}>
-                            <AutoComplete style={{width: '100%'}}
+                            <AutoComplete style={{width: '100%', marginBottom: '20x'}}
                                           options={options}
+                                          value={inputValue}
                                           onSearch={onSearch}
+                                          //onSelect={(val) => handlePressEnter(val)}
+                                          onSelect={handlePressEnter}
+                                          onChange={setInputValue}
+                                         // onSearch={(val) => setInputValue(val)}
+                                         // onSelect={(val) => handlePressEnter(val)}
                                           placeholder="할일을 입력하고 Enter!(프로젝트 속성 자동완성)"
-                            />
+                            >
+                                {/* <Input.Search
+                                    enterButton={<PlusOutlined />}
+                                    onSearch={handlePressEnter}
+                                /> */}
+                                <Input placeholder="할일을 입력하고 Enter!"
+                                       value={inputValue}
+                                       onKeyDown={(e) => {
+                                        if(e.key === 'Enter') {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handlePressEnter(inputValue);
+
+                                            //setInputValue("");
+                                            
+                                        }
+                                       }}
+                                       suffix={<PlusOutlined onClick={() => handlePressEnter(inputValue)} />}
+                                    />
+                            </AutoComplete>
+                            
                         </div>
-                        <div style={{display:'flex', flexDirection:'column', gap:'12px'}}>
+                        <div style={{
+                            maxHeight: '300px',
+                            overflowY : 'auto',
+                            display : 'flex',
+                            flexDirection : 'column',
+                            gap : '10px'
+                        }}>
+                            {todoList.length === 0 ? (
+                                    <div style={{color : '#ccc', textAlign: 'center', marginTob : '20px'}}>
+                                        등록된 할 일이 없습니다.
+                                    </div>
+                                ) : (
+                                    todoList.map((item) => (
+                                        <div key={item.id} style={{display:'flex', alignItems: 'center', gap : '8px'}}>
+                                            <Checkbox checked={item.checked} />
+                                            <Input variant="filled" value={item.text} readOnly style={{flex : 1}} />
+                                            <Button
+                                                type="text"
+                                                danger
+                                                icon={<DeleteOutlined />} 
+                                                onClick={() => handleDelete(item.id)}
+                                            />
+                                        </div>
+                                    ))
+                                )} 
+                        </div>
+                        {/* <div style={{display:'flex', flexDirection:'column', gap:'12px'}}>
                             {[1,2,3].map(i => (
                                 <div key={i} style={{display:'flex', alignItems: 'center', gap: '10px'}}>
                                     <Checkbox />
                                     <Input variant="filled" defaultValue={`오늘의 할일 ${i}`} />
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </Card>
                     <Card size="small" 
                           style={{borderRadius: '12px', flex:1,display:'flex',flexDirection:'column'}}
