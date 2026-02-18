@@ -6,28 +6,19 @@ import {EditOutlined, PlusOutlined} from '@ant-design/icons';
 import dayjs from 'dayjs';
 import locale from 'antd/es/date-picker/locale/ko_KR';
 import ChecklistWritePage from 'pages/ChecklistWritePage';
-
+import getListData from 'common/common';
 
 
 const ProjectDetailContainer = ({onOpenTab}) => {
 
-    
-
-    const getListData = (value) => {
-        const day = value.date();
-        if(day % 10 === 0) return {percent : 30, color : '#ff4d4f'};
-        if(day % 5 === 0) return {percent : 60, color : '#faad14'};
-        if(day % 3=== 0) return {percent : 60, color : '#52c41a'};
-
-        return null;
-    };
+    const today = '2026-01-31'
 
     const handleGoToWrite = () => {
 
         onOpenTab({
             id:"checklist-write",
             title: "체크리스트 작성",
-            component : <ChecklistWritePage onOpenTab={onOpenTab} />
+            component : <ChecklistWritePage onOpenTab={onOpenTab} today={today}/>
         })
         
     }
@@ -37,7 +28,7 @@ const ProjectDetailContainer = ({onOpenTab}) => {
     const dateCellRender = (value) => {
         
         let data = getListData(value); 
-        const isToday = value.isSame(dayjs('2026-01-31'), 'day'); //dayjs에 인자값을 오늘날짜로 넣어야 함
+        const isToday = value.isSame(dayjs(today), 'day'); //dayjs에 인자값을 오늘날짜로 넣어야 함
 
         data = value.month() + 1 === Number(activeMonth) ? data : null
 

@@ -2,10 +2,10 @@
 import ChecklistWriteContainer from "container/ChecklistWriteContainer";
 
 
-const ChecklistWritePage = ({onOpenTab}) => {
+const ChecklistWritePage = ({onOpenTab, today }) => {
 
     return (
-        <ChecklistWriteContainer />
+        <ChecklistWriteContainer today={today}/>
     )
 
 }

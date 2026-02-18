@@ -11,8 +11,10 @@ export default defineConfig({
       'routes': path.resolve(__dirname, 'src/routes'),
       'component': path.resolve(__dirname, 'src/component'),
       'layout': path.resolve(__dirname, 'src/layout'),
-      'container': path.resolve(__dirname, 'src/container'),
+      'container': path.resolve(__dirname, 'src/container'),      
       'styles': path.resolve(__dirname, 'src/styles'),
+      'common': path.resolve(__dirname, 'src/common'),
+
     },
   }
 })

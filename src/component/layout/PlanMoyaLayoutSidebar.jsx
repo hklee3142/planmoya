@@ -1,7 +1,7 @@
 
 import AdminPage from "pages/AdminPage";
 import BlogPage from "pages/BlogPage";
-import ChecklistPage from "pages/Checklistpage";
+import ChecklistWritePage from "pages/ChecklistWritePage";
 import JournalPage from "pages/JournalPage";
 import ProjectDetailPage from "pages/ProjectDetailPage";
 import {NavLink} from "react-router-dom";
@@ -44,7 +44,7 @@ const PlanMoyaLayoutSidebar = ({onOpenTab}) => {
                 onOpenTab({
                     id: "checklist",
                     title: "체크리스트",
-                    component: <ChecklistPage />
+                    component: <ChecklistWritePage today={'2026-01-31'} />
                 })
             }>체크리스트</div>            
             <div className="sidebar-item" onClick={() =>
