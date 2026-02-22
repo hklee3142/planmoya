@@ -3,14 +3,17 @@ import React, {useState} from "react";
 import PlanMoyaLayoutSidebar from "component/layout/PlanMoyaLayoutSidebar";
 import TabBar from "component/layout/TabBar";
 import BreadCrumb from "component/layout/BreadCrumb";
+import { loadTabsFromStorage } from "storage/TabState";
 
 
 
 
 const PlanMoyaLayout = () => {
 
-    const [tabs, setTabs] = useState([]);
-    const [activeTabId, setActiveTabId] = useState(null);
+    //const [tabs, setTabs] = useState([]);
+    //const [activeTabId, setActiveTabId] = useState(null);
+    const [tabs, setTabs] = useState(() => loadTabsFromStorage().tabs);
+    const [activeTabId, setActiveTabId] = useState(() => loadTabsFromStorage().activeId);
 
     const openTab = (tab) => {
         setTabs((prev) => {
